@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мастер на час «Дом» — демо сайта-визитки</title>
+<meta name="description" content="Мелкий ремонт и сборка мебели. Демонстрационная работа: пример одностраничного сайта-визитки.">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#10171c;color:#eaf2f6;font:16px/1.6 system-ui, sans-serif}
+  .demo{background:#3ec486;color:#10171c;text-align:center;padding:8px 16px;font:600 14px/1.4 system-ui,sans-serif}
+  main{max-width:760px;margin:0 auto;padding:0 16px 56px}
+  header{padding:56px 0 32px}
+  h1{font-size:2.1rem;line-height:1.2;margin:8px 0 12px}
+  .brand{color:#3ec486;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem}
+  p{color:#8fa4b0;margin:0 0 16px}
+  .btn{display:inline-block;background:#3ec486;color:#10171c;padding:13px 26px;border-radius:12px;text-decoration:none;font-weight:700}
+  h2{margin:44px 0 16px;font-size:1.3rem}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .card{background:#18232a;border-radius:14px;padding:18px}
+  .card b{display:block;margin-bottom:6px}
+  .price{color:#3ec486;font-weight:700}
+  .icon{font-size:1.6rem}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid #8fa4b055;color:#8fa4b0;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="demo">Демо-работа: пример сайта-визитки, вымышленный бизнес</div>
+<main>
+  <header>
+    <div class="brand">Мастер на час «Дом»</div>
+    <h1>Решу бытовые задачи за один визит</h1>
+    <p>Мелкий ремонт и сборка мебели</p>
+    <a class="btn" href="#contact">Вызвать мастера</a>
+  </header>
+  <h2>Услуги и цены</h2>
+  <div class="grid"><div class="card"><b>Сборка мебели</b><span class="price">от 1 000 ₽</span></div><div class="card"><b>Установка техники</b><span class="price">от 1 500 ₽</span></div><div class="card"><b>Электрика и сантехника</b><span class="price">от 1 200 ₽</span></div></div>
+  <h2>Почему мы</h2>
+  <div class="grid"><div class="card"><div class="icon">🔧</div>Свой инструмент</div><div class="card"><div class="icon">⏱️</div>Приезд в день обращения</div><div class="card"><div class="icon">✅</div>Гарантия на работу</div></div>
+  <h2 id="contact">Контакты</h2>
+  <div class="card"><p>Выезд по городу. Ежедневно 08:00–22:00</p><a class="btn" href="#contact">Вызвать мастера</a></div>
+  <footer>© Мастер на час «Дом». Демонстрационная страница, все данные вымышлены.</footer>
+</main>
+</body>
+</html>

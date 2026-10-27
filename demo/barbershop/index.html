@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Барбершоп «Борода» — демо сайта-визитки</title>
+<meta name="description" content="Мужские стрижки и уход за бородой. Демонстрационная работа: пример одностраничного сайта-визитки.">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#14110f;color:#f3ece4;font:16px/1.6 Georgia, serif}
+  .demo{background:#c8963e;color:#14110f;text-align:center;padding:8px 16px;font:600 14px/1.4 system-ui,sans-serif}
+  main{max-width:760px;margin:0 auto;padding:0 16px 56px}
+  header{padding:56px 0 32px}
+  h1{font-size:2.1rem;line-height:1.2;margin:8px 0 12px}
+  .brand{color:#c8963e;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem}
+  p{color:#b9aa9a;margin:0 0 16px}
+  .btn{display:inline-block;background:#c8963e;color:#14110f;padding:13px 26px;border-radius:12px;text-decoration:none;font-weight:700}
+  h2{margin:44px 0 16px;font-size:1.3rem}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .card{background:#1f1a17;border-radius:14px;padding:18px}
+  .card b{display:block;margin-bottom:6px}
+  .price{color:#c8963e;font-weight:700}
+  .icon{font-size:1.6rem}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid #b9aa9a55;color:#b9aa9a;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="demo">Демо-работа: пример сайта-визитки, вымышленный бизнес</div>
+<main>
+  <header>
+    <div class="brand">Барбершоп «Борода»</div>
+    <h1>Стрижка, после которой хочется улыбаться</h1>
+    <p>Мужские стрижки и уход за бородой</p>
+    <a class="btn" href="#contact">Записаться</a>
+  </header>
+  <h2>Услуги и цены</h2>
+  <div class="grid"><div class="card"><b>Мужская стрижка</b><span class="price">1 200 ₽</span></div><div class="card"><b>Моделирование бороды</b><span class="price">800 ₽</span></div><div class="card"><b>Стрижка + борода</b><span class="price">1 800 ₽</span></div></div>
+  <h2>Почему мы</h2>
+  <div class="grid"><div class="card"><div class="icon">✂️</div>Опытные мастера</div><div class="card"><div class="icon">🕐</div>Запись без очередей</div><div class="card"><div class="icon">☕</div>Кофе и приятная атмосфера</div></div>
+  <h2 id="contact">Контакты</h2>
+  <div class="card"><p>Пример адреса: ул. Образцовая, 1. Ежедневно 10:00–21:00</p><a class="btn" href="#contact">Записаться</a></div>
+  <footer>© Барбершоп «Борода». Демонстрационная страница, все данные вымышлены.</footer>
+</main>
+</body>
+</html>

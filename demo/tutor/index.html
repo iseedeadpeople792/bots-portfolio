@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Репетитор Анна — демо сайта-визитки</title>
+<meta name="description" content="Математика и физика для школьников. Демонстрационная работа: пример одностраничного сайта-визитки.">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#f4f8ff;color:#12233d;font:16px/1.6 system-ui, sans-serif}
+  .demo{background:#2f6bff;color:#ffffff;text-align:center;padding:8px 16px;font:600 14px/1.4 system-ui,sans-serif}
+  main{max-width:760px;margin:0 auto;padding:0 16px 56px}
+  header{padding:56px 0 32px}
+  h1{font-size:2.1rem;line-height:1.2;margin:8px 0 12px}
+  .brand{color:#2f6bff;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem}
+  p{color:#5b6b85;margin:0 0 16px}
+  .btn{display:inline-block;background:#2f6bff;color:#ffffff;padding:13px 26px;border-radius:12px;text-decoration:none;font-weight:700}
+  h2{margin:44px 0 16px;font-size:1.3rem}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .card{background:#ffffff;border-radius:14px;padding:18px}
+  .card b{display:block;margin-bottom:6px}
+  .price{color:#2f6bff;font-weight:700}
+  .icon{font-size:1.6rem}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid #5b6b8555;color:#5b6b85;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="demo">Демо-работа: пример сайта-визитки, вымышленный бизнес</div>
+<main>
+  <header>
+    <div class="brand">Репетитор Анна</div>
+    <h1>Подтяну оценки и подготовлю к экзаменам</h1>
+    <p>Математика и физика для школьников</p>
+    <a class="btn" href="#contact">Записаться на пробное</a>
+  </header>
+  <h2>Услуги и цены</h2>
+  <div class="grid"><div class="card"><b>Пробное занятие</b><span class="price">500 ₽</span></div><div class="card"><b>Индивидуальное занятие, 60 мин</b><span class="price">1 500 ₽</span></div><div class="card"><b>Подготовка к ОГЭ и ЕГЭ, месяц</b><span class="price">10 000 ₽</span></div></div>
+  <h2>Почему мы</h2>
+  <div class="grid"><div class="card"><div class="icon">📚</div>Программа под ученика</div><div class="card"><div class="icon">📈</div>Результат за 2–3 месяца</div><div class="card"><div class="icon">💻</div>Онлайн или очно</div></div>
+  <h2 id="contact">Контакты</h2>
+  <div class="card"><p>Занятия онлайн и очно. Ответ на заявку в течение дня</p><a class="btn" href="#contact">Записаться на пробное</a></div>
+  <footer>© Репетитор Анна. Демонстрационная страница, все данные вымышлены.</footer>
+</main>
+</body>
+</html>

@@ -23,6 +23,14 @@
   .card { background:var(--card); border-radius:12px; padding:20px; }
   .card h3 { margin:0 0 6px; }
   .price { color:var(--accent); font-weight:700; }
+  .chat { background:var(--card); border-radius:16px; padding:16px; max-width:380px; margin:0 auto; }
+  .msg { padding:10px 14px; border-radius:14px; margin:8px 0; max-width:85%; color:var(--fg); font-size:.95rem; }
+  .msg.bot { background:var(--bg); border-top-left-radius:4px; }
+  .msg.me { background:var(--accent); color:#fff; margin-left:auto; border-top-right-radius:4px; }
+  .keys { display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 8px; }
+  .keys span { background:var(--bg); color:var(--accent); border-radius:8px; padding:6px 12px; font-size:.9rem; }
+  ol.steps { color:var(--muted); padding-left:20px; }
+  ol.steps li { margin:6px 0; }
   footer { color:var(--muted); font-size:.9rem; margin-top:56px; }
 </style>
 </head>
@@ -40,10 +48,31 @@
     <div class="card"><h3>Работает 24/7</h3><p>Размещение на бесплатном тарифе, без серверов и абонплаты.</p></div>
   </div>
 
+  <h2>Как это выглядит у клиента</h2>
+  <div class="chat" aria-label="Пример диалога с ботом">
+    <div class="msg bot">Салон красоты «Лотос». Посмотрите прайс или запишитесь.</div>
+    <div class="keys"><span>💰 Прайс</span><span>❓ FAQ</span><span>📝 Записаться</span></div>
+    <div class="msg me">Записаться</div>
+    <div class="msg bot">Выберите день:</div>
+    <div class="keys"><span>ср 28.10</span><span>чт 29.10</span><span>пт 30.10</span></div>
+    <div class="msg bot">Свободное время на 29.10:</div>
+    <div class="keys"><span>10:00</span><span>13:00</span><span>15:00</span><span>17:00</span></div>
+    <div class="msg me">Анна, 89990001122</div>
+    <div class="msg bot">✅ Вы записаны на 29.10 в 15:00. Ждём вас!</div>
+  </div>
+
+  <h2>Как мы работаем</h2>
+  <ol class="steps">
+    <li>Вы присылаете название, прайс и ответы на частые вопросы.</li>
+    <li>Я собираю бота и показываю его вам в Telegram.</li>
+    <li>После ваших правок запускаю бота на бесплатном хостинге.</li>
+    <li>Вы получаете инструкцию, как менять тексты самому.</li>
+  </ol>
+
   <h2>Цены</h2>
   <div class="grid">
-    <div class="card"><h3>Визитка</h3><div class="price">от 5 000 ₽</div><p>Прайс, FAQ, заявки. Срок: 1 день.</p></div>
-    <div class="card"><h3>Под вашу задачу</h3><div class="price">от 15 000 ₽</div><p>Запись по слотам, выгрузка в таблицу, оплата.</p></div>
+    <div class="card"><h3>Визитка</h3><div class="price">от 2 000 ₽</div><p>Прайс, FAQ, приём заявок. Срок: 1 день.</p></div>
+    <div class="card"><h3>С записью</h3><div class="price">от 15 000 ₽</div><p>Запись по свободным слотам без накладок, заявки в Google Таблицу.</p></div>
   </div>
 
   <footer>© Даниил · <a style="color:var(--accent)" href="https://t.me/iseedeadpeople792">Telegram</a></footer>

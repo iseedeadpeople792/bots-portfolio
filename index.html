@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Telegram-боты для записи клиентов</title>
-<meta name="description" content="Делаю Telegram-ботов для записи клиентов: свободное время, уведомления о каждой записи, бесплатный хостинг. Цены от 2 000 ₽.">
+<title data-en="Telegram bots for booking clients">Telegram-боты для записи клиентов</title>
+<meta name="description" content="Делаю Telegram-ботов для записи клиентов: свободное время, уведомления о каждой записи, бесплатный хостинг. Цены от 2 000 ₽." data-en-content="I build Telegram bots for booking clients: free time slots, a notification for every booking, free hosting. Prices from 2,000 RUB.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23ff6f96'/%3E%3Cpath d='M8 16.5l5 4.5 11-11' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,11 @@
 
   /* top bar */
   .top { display:flex; justify-content:space-between; align-items:center; padding:22px 0; }
+  .lang { display:inline-flex; padding:3px; border-radius:999px; background:var(--paper); box-shadow:0 0 0 1px var(--line); font:600 12px var(--display); margin-left:10px; }
+  .lang button { all:unset; cursor:pointer; padding:6px 10px; border-radius:999px; line-height:1.2; }
+  .lang button[aria-pressed="true"] { background:var(--pink-deep); color:#fff; }
+  .lang button:focus-visible { outline:2px solid var(--pink-deep); outline-offset:2px; }
+  .top .right { display:flex; align-items:center; }
   .top b { font:600 15px var(--display); letter-spacing:-.01em; }
   .top a.tglink { font-weight:700; text-decoration:none; padding:9px 16px; border-radius:999px; background:var(--paper); box-shadow:0 0 0 1px var(--line); transition:box-shadow .2s, transform .2s; }
   .top a.tglink:hover { box-shadow:0 0 0 2px var(--pink); transform:translateY(-1px); }
@@ -125,109 +130,145 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <b>Даниил · Telegram-боты</b>
-    <a class="tglink" href="https://t.me/daniilplotnikov792">Написать в Telegram</a>
+    <b data-en="Daniil · Telegram bots">Даниил · Telegram-боты</b>
+    <span class="right"><a class="tglink" href="https://t.me/daniilplotnikov792" data-en="Message me on Telegram">Написать в Telegram</a></span>
   </header>
 
   <div class="hero">
     <div>
-      <h1>Бот, который записывает ваших клиентов, пока вы работаете</h1>
-      <p class="lead">Клиент сам выбирает день и свободное время в Telegram. Занятые часы скрываются, двойных записей не бывает, а каждая запись приходит вам сообщением.</p>
+      <h1 data-en="A bot that books your clients while you work">Бот, который записывает ваших клиентов, пока вы работаете</h1>
+      <p class="lead" data-en="The client picks a day and a free time in Telegram. Busy hours are hidden, double bookings can't happen, and every booking reaches you as a message.">Клиент сам выбирает день и свободное время в Telegram. Занятые часы скрываются, двойных записей не бывает, а каждая запись приходит вам сообщением.</p>
       <div class="actions">
-        <a class="btn main" href="https://t.me/daniilplotnikov792">Заказать бота</a>
-        <a class="btn ghost" href="https://t.me/bizcard_demo_bot">Попробовать демо</a>
+        <a class="btn main" href="https://t.me/daniilplotnikov792" data-en="Order a bot">Заказать бота</a>
+        <a class="btn ghost" href="https://t.me/bizcard_demo_bot" data-en="Try the demo">Попробовать демо</a>
       </div>
       <ul class="facts">
-        <li>Хостинг бесплатный, абонплаты нет</li>
-        <li>Работает круглосуточно</li>
-        <li>Простой бот готов за 1 день</li>
+        <li data-en="Free hosting, no subscription">Хостинг бесплатный, абонплаты нет</li>
+        <li data-en="Works around the clock">Работает круглосуточно</li>
+        <li data-en="A simple bot is ready in 1 day">Простой бот готов за 1 день</li>
       </ul>
     </div>
 
     <div class="stage">
-      <div class="phone" aria-label="Пример диалога клиента с ботом записи">
+      <div class="phone" aria-label="Пример диалога клиента с ботом записи" data-en-aria-label="Example of a client talking to a booking bot">
         <div class="screen">
-          <div class="bar"><span class="ava">Л</span><span>Салон «Лотос»<small>бот</small></span></div>
+          <div class="bar"><span class="ava" data-en="L">Л</span><span><span data-en="Lotus Salon">Салон «Лотос»</span><small data-en="bot">бот</small></span></div>
           <div class="feed" id="feed" aria-live="off"></div>
         </div>
       </div>
-      <div class="note" id="note"><b>Новая запись</b><span id="noteText"></span></div>
-      <button class="replay" id="replay" type="button">Показать ещё раз</button>
+      <div class="note" id="note"><b data-en="New booking">Новая запись</b><span id="noteText"></span></div>
+      <button class="replay" id="replay" type="button" data-en="Show again">Показать ещё раз</button>
     </div>
   </div>
 </div>
 
 <section class="band">
   <div class="wrap">
-    <h2>Что вы получаете</h2>
+    <h2 data-en="What you get">Что вы получаете</h2>
     <ul class="gives">
-      <li><h3>Запись без звонков и переписки</h3><p>Клиент видит только свободное время и выбирает его кнопками. Вам не нужно отвечать на «а на когда у вас есть окошко?».</p></li>
-      <li><h3>Уведомление о каждой записи</h3><p>Имя, телефон, день и время приходят вам в Telegram сразу. При желании записи ещё и попадают в Google Таблицу.</p></li>
-      <li><h3>Прайс и ответы на частые вопросы</h3><p>Цены и ответы лежат в кнопках внутри бота. Тексты можно менять самому по короткой инструкции.</p></li>
+      <li><h3 data-en="Booking without calls or chats">Запись без звонков и переписки</h3><p data-en="The client sees only free time and picks it with buttons. You no longer have to answer &quot;do you have a slot for…?&quot;.">Клиент видит только свободное время и выбирает его кнопками. Вам не нужно отвечать на «а на когда у вас есть окошко?».</p></li>
+      <li><h3 data-en="A notification for every booking">Уведомление о каждой записи</h3><p data-en="Name, phone, day and time reach you in Telegram right away. If you like, bookings also go into a Google Sheet.">Имя, телефон, день и время приходят вам в Telegram сразу. При желании записи ещё и попадают в Google Таблицу.</p></li>
+      <li><h3 data-en="Price list and answers to common questions">Прайс и ответы на частые вопросы</h3><p data-en="Prices and answers live in buttons inside the bot. You can change the texts yourself with a short guide.">Цены и ответы лежат в кнопках внутри бота. Тексты можно менять самому по короткой инструкции.</p></li>
     </ul>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Как мы работаем</h2>
+    <h2 data-en="How we work">Как мы работаем</h2>
     <ol class="steps">
-      <li><p>Вы присылаете название, прайс, график работы и ответы на частые вопросы.</p></li>
-      <li><p>Я собираю бота и показываю его вам прямо в Telegram.</p></li>
-      <li><p>Вы говорите, что поправить. Я вношу правки.</p></li>
-      <li><p>Запускаю бота на бесплатном хостинге и отдаю инструкцию.</p></li>
+      <li><p data-en="You send the name, price list, working schedule and answers to common questions.">Вы присылаете название, прайс, график работы и ответы на частые вопросы.</p></li>
+      <li><p data-en="I build the bot and show it to you right in Telegram.">Я собираю бота и показываю его вам прямо в Telegram.</p></li>
+      <li><p data-en="You tell me what to fix. I make the changes.">Вы говорите, что поправить. Я вношу правки.</p></li>
+      <li><p data-en="I launch the bot on free hosting and hand over the guide.">Запускаю бота на бесплатном хостинге и отдаю инструкцию.</p></li>
     </ol>
   </div>
 </section>
 
 <section class="band" id="prices">
   <div class="wrap">
-    <h2>Цены</h2>
+    <h2 data-en="Prices">Цены</h2>
     <ul class="price">
       <li>
-        <div><h3>Визитка</h3><p>Прайс и ответы на частые вопросы кнопками. Клиент оставляет имя и телефон, заявка приходит вам в Telegram.</p></div>
-        <div class="sum">от 2 000 ₽</div>
-        <div class="term">1 день</div>
+        <div><h3 data-en="Business card">Визитка</h3><p data-en="A price list and answers to common questions as buttons. The client leaves a name and phone, and the request reaches you in Telegram.">Прайс и ответы на частые вопросы кнопками. Клиент оставляет имя и телефон, заявка приходит вам в Telegram.</p></div>
+        <div class="sum" data-en="from 2,000 RUB">от 2 000 ₽</div>
+        <div class="term" data-en="1 day">1 день</div>
       </li>
       <li>
-        <div><h3>С записью</h3><p>Всё из «Визитки» и запись по свободным слотам: занятое время скрывается, каждая запись приходит вам в Telegram.</p></div>
-        <div class="sum">от 7 000 ₽</div>
-        <div class="term">от 3 дней</div>
+        <div><h3 data-en="With booking">С записью</h3><p data-en="Everything from &quot;Business card&quot; plus booking by free slots: busy time is hidden and every booking reaches you in Telegram.">Всё из «Визитки» и запись по свободным слотам: занятое время скрывается, каждая запись приходит вам в Telegram.</p></div>
+        <div class="sum" data-en="from 7,000 RUB">от 7 000 ₽</div>
+        <div class="term" data-en="from 3 days">от 3 дней</div>
       </li>
       <li>
-        <div><h3>Запись и таблица</h3><p>Всё из тарифа «С записью» и выгрузка всех записей в Google Таблицу, чтобы видеть расписание целиком.</p></div>
-        <div class="sum">от 15 000 ₽</div>
-        <div class="term">от 5 дней</div>
+        <div><h3 data-en="Booking and sheet">Запись и таблица</h3><p data-en="Everything from &quot;With booking&quot; plus export of all bookings to a Google Sheet, so you see the whole schedule.">Всё из тарифа «С записью» и выгрузка всех записей в Google Таблицу, чтобы видеть расписание целиком.</p></div>
+        <div class="sum" data-en="from 15,000 RUB">от 15 000 ₽</div>
+        <div class="term" data-en="from 5 days">от 5 дней</div>
       </li>
     </ul>
-    <p class="fineprint">Точную цену и срок назову после того, как узнаю ваш график и услуги. Работаю с предоплатой, перед запуском вы увидите готового бота.</p>
+    <p class="fineprint" data-en="I'll name the exact price and time after I learn your schedule and services. I work with a prepayment, and you see the finished bot before launch.">Точную цену и срок назову после того, как узнаю ваш график и услуги. Работаю с предоплатой, перед запуском вы увидите готового бота.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Частые вопросы</h2>
-    <details><summary>Сколько я плачу за бота потом?</summary><p>Бот работает на бесплатном хостинге, поэтому ежемесячной платы за сервер нет. Вы платите только за разработку.</p></details>
-    <details><summary>Что нужно прислать, чтобы начать?</summary><p>Название, прайс, рабочие дни и часы, длительность одной записи и ответы на 3–5 частых вопросов. Токен бота я подскажу, как получить, это занимает пару минут.</p></details>
-    <details><summary>Можно потом менять цены и часы работы?</summary><p>Да. Вы получите инструкцию, как поменять тексты и рабочие часы самому. Если не захотите разбираться, правки внесу я.</p></details>
-    <details><summary>А если клиент захочет записаться на занятое время?</summary><p>Занятое время в боте не показывается, а повторная запись на то же время отклоняется.</p></details>
+    <h2 data-en="Common questions">Частые вопросы</h2>
+    <details><summary data-en="What do I pay for the bot afterwards?">Сколько я плачу за бота потом?</summary><p data-en="The bot runs on free hosting, so there is no monthly server fee. You pay only for the development.">Бот работает на бесплатном хостинге, поэтому ежемесячной платы за сервер нет. Вы платите только за разработку.</p></details>
+    <details><summary data-en="What do I need to send to get started?">Что нужно прислать, чтобы начать?</summary><p data-en="The name, price list, working days and hours, the length of one booking and answers to 3–5 common questions. I'll show you how to get the bot token; it takes a couple of minutes.">Название, прайс, рабочие дни и часы, длительность одной записи и ответы на 3–5 частых вопросов. Токен бота я подскажу, как получить, это занимает пару минут.</p></details>
+    <details><summary data-en="Can I change prices and working hours later?">Можно потом менять цены и часы работы?</summary><p data-en="Yes. You get a guide on changing the texts and working hours yourself. If you'd rather not, I'll make the changes.">Да. Вы получите инструкцию, как поменять тексты и рабочие часы самому. Если не захотите разбираться, правки внесу я.</p></details>
+    <details><summary data-en="What if a client wants to book a busy time?">А если клиент захочет записаться на занятое время?</summary><p data-en="Busy time isn't shown in the bot, and a repeat booking for the same time is rejected.">Занятое время в боте не показывается, а повторная запись на то же время отклоняется.</p></details>
   </div>
 </section>
 
 <section class="band cta">
   <div class="wrap">
-    <h2>Покажу вашего бота в Telegram до оплаты запуска</h2>
+    <h2 data-en="I'll show you your bot in Telegram before you pay for the launch">Покажу вашего бота в Telegram до оплаты запуска</h2>
     <div class="actions">
-      <a class="btn main" href="https://t.me/daniilplotnikov792">Написать в Telegram</a>
-      <a class="btn ghost" href="https://t.me/bizcard_demo_bot">Попробовать демо</a>
+      <a class="btn main" href="https://t.me/daniilplotnikov792" data-en="Message me on Telegram">Написать в Telegram</a>
+      <a class="btn ghost" href="https://t.me/bizcard_demo_bot" data-en="Try the demo">Попробовать демо</a>
     </div>
   </div>
 </section>
 
 <div class="wrap">
-  <footer>© Даниил · <a href="https://t.me/daniilplotnikov792">Telegram</a></footer>
+  <footer><span data-en="© Daniil ·">© Даниил ·</span> <a href="https://t.me/daniilplotnikov792">Telegram</a></footer>
 </div>
 
+<script>
+// Язык: RU по умолчанию в разметке, EN из data-en*. Ключ "lang" общий с сайтом портфолио (тот же origin).
+const LANG = (() => {
+  try { const s = localStorage.getItem('lang'); if (s === 'ru' || s === 'en') return s; } catch (e) {}
+  const q = new URLSearchParams(location.search).get('lang');
+  if (q === 'ru' || q === 'en') return q;
+  const f = ((navigator.languages && navigator.languages[0]) || navigator.language || 'ru').slice(0, 2).toLowerCase();
+  return ['ru', 'uk', 'be', 'kk'].includes(f) ? 'ru' : 'en';
+})();
+const L = (ru, en) => (LANG === 'en' ? en : ru);
+(() => {
+  document.documentElement.lang = LANG;
+  if (LANG === 'en') {
+    document.querySelectorAll('[data-en]').forEach(el => { el.textContent = el.dataset.en; });
+    ['aria-label', 'content', 'placeholder', 'title', 'alt'].forEach(a =>
+      document.querySelectorAll('[data-en-' + a + ']').forEach(el => el.setAttribute(a, el.getAttribute('data-en-' + a))));
+  }
+  const box = document.createElement('div');
+  box.className = 'lang';
+  box.setAttribute('role', 'group');
+  box.setAttribute('aria-label', L('Язык', 'Language'));
+  ['ru', 'en'].forEach(code => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = code.toUpperCase();
+    b.setAttribute('aria-pressed', String(code === LANG));
+    b.addEventListener('click', () => {
+      if (code === LANG) return;
+      try { localStorage.setItem('lang', code); } catch (e) {}
+      const u = new URL(location.href); u.searchParams.delete('lang'); location.href = u.href;
+    });
+    box.appendChild(b);
+  });
+  document.querySelector('.top .right').appendChild(box);
+})();
+</script>
 <script>
 (() => {
   const feed = document.getElementById('feed');
@@ -235,10 +276,10 @@
   const noteText = document.getElementById('noteText');
   const replay = document.getElementById('replay');
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const wd = ['вс','пн','вт','ср','чт','пт','сб'];
+  const wd = L(['вс','пн','вт','ср','чт','пт','сб'], ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']);
   const days = [1, 2, 3].map(n => { const d = new Date(Date.now() + n * 864e5); return `${wd[d.getDay()]} ${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`; });
   const day = days[1];
-  const dayShort = day.slice(3);
+  const dayShort = day.slice(day.indexOf(' ') + 1);
   const wait = ms => new Promise(r => setTimeout(r, still ? 0 : ms));
   let run = 0;
 
@@ -252,33 +293,33 @@
     feed.innerHTML = '';
     note.classList.remove('show');
 
-    bubble('bot', 'Салон «Лотос». Посмотрите прайс или запишитесь.');
+    bubble('bot', L('Салон «Лотос». Посмотрите прайс или запишитесь.', 'Lotus Salon. Check the price list or book a visit.'));
     await wait(500); if (!alive()) return;
-    let k = keys(['Прайс', 'FAQ', 'Записаться']);
+    let k = keys([L('Прайс', 'Prices'), 'FAQ', L('Записаться', 'Book')]);
     await press(k, 2); if (!alive()) return;
-    bubble('me', 'Записаться');
+    bubble('me', L('Записаться', 'Book'));
 
     await wait(700); if (!alive()) return;
-    bubble('bot', 'Выберите день:');
+    bubble('bot', L('Выберите день:', 'Pick a day:'));
     k = keys(days);
     await press(k, 1); if (!alive()) return;
     bubble('me', day);
 
     await wait(700); if (!alive()) return;
-    bubble('bot', 'Свободное время на ' + dayShort + ':');
+    bubble('bot', L('Свободное время на ', 'Free times on ') + dayShort + ':');
     k = keys(['10:00', '13:00', '15:00', '17:00']);
     await press(k, 2); if (!alive()) return;
     bubble('me', '15:00');
 
     await wait(700); if (!alive()) return;
-    bubble('bot', 'Напишите имя и телефон одним сообщением');
+    bubble('bot', L('Напишите имя и телефон одним сообщением', 'Send your name and phone in one message'));
     await wait(1100); if (!alive()) return;
-    bubble('me', 'Анна, 89990001122');
+    bubble('me', L('Анна, 89990001122', 'Anna, 89990001122'));
 
     await wait(800); if (!alive()) return;
-    bubble('bot', 'Вы записаны на ' + dayShort + ' в 15:00. Ждём вас!');
+    bubble('bot', L('Вы записаны на ' + dayShort + ' в 15:00. Ждём вас!', 'You are booked for ' + dayShort + ' at 15:00. See you!'));
     await wait(600); if (!alive()) return;
-    noteText.textContent = day + ', 15:00, Анна';
+    noteText.textContent = day + L(', 15:00, Анна', ', 15:00, Anna');
     note.classList.add('show');
   }
 

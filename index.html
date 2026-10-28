@@ -3,79 +3,288 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Telegram-боты для бизнеса</title>
-<meta name="description" content="Делаю Telegram-боты для малого бизнеса: прайс, запись, заявки. Запуск за 1 день.">
+<title>Telegram-боты для записи клиентов</title>
+<meta name="description" content="Делаю Telegram-ботов для записи клиентов: свободное время, уведомления о каждой записи, бесплатный хостинг. Цены от 2 000 ₽.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23ff6f96'/%3E%3Cpath d='M8 16.5l5 4.5 11-11' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#0f1115; --fg:#e8eaed; --muted:#9aa0a6; --card:#181b21; --accent:#4f9dff; }
-  @media (prefers-color-scheme: light) {
-    :root { --bg:#fff; --fg:#14171c; --muted:#5f6670; --card:#f3f5f8; --accent:#0a6cf0; }
+  :root {
+    --bg:#fff3f1; --paper:#fff; --ink:#2a1a2d; --muted:#7b6674; --line:#f0d3d9;
+    --pink:#ff6f96; --pink-deep:#e0477a; --peach:#ffb199; --blush:#ffdde5;
+    --tg:#4c9be8;
+    --display:'Unbounded','Trebuchet MS',system-ui,sans-serif;
+    --body:'Manrope',system-ui,sans-serif;
   }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui,sans-serif; }
-  main { max-width:760px; margin:0 auto; padding:48px 16px; }
-  h1 { font-size:2rem; line-height:1.2; margin:0 0 12px; }
-  h2 { margin:48px 0 16px; }
-  p { color:var(--muted); }
-  .btn { display:inline-block; background:var(--accent); color:#fff; padding:12px 22px;
-         border-radius:10px; text-decoration:none; font-weight:600; margin:8px 8px 0 0; }
-  .btn.alt { background:transparent; color:var(--accent); border:1px solid var(--accent); }
-  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); }
-  .card { background:var(--card); border-radius:12px; padding:20px; }
-  .card h3 { margin:0 0 6px; }
-  .price { color:var(--accent); font-weight:700; }
-  .chat { background:var(--card); border-radius:16px; padding:16px; max-width:380px; margin:0 auto; }
-  .msg { padding:10px 14px; border-radius:14px; margin:8px 0; max-width:85%; color:var(--fg); font-size:.95rem; }
-  .msg.bot { background:var(--bg); border-top-left-radius:4px; }
-  .msg.me { background:var(--accent); color:#fff; margin-left:auto; border-top-right-radius:4px; }
-  .keys { display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 8px; }
-  .keys span { background:var(--bg); color:var(--accent); border-radius:8px; padding:6px 12px; font-size:.9rem; }
-  ol.steps { color:var(--muted); padding-left:20px; }
-  ol.steps li { margin:6px 0; }
-  footer { color:var(--muted); font-size:.9rem; margin-top:56px; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:400 17px/1.65 var(--body); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  :focus-visible { outline:3px solid var(--pink-deep); outline-offset:3px; border-radius:6px; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* top bar */
+  .top { display:flex; justify-content:space-between; align-items:center; padding:22px 0; }
+  .top b { font:600 15px var(--display); letter-spacing:-.01em; }
+  .top a.tglink { font-weight:700; text-decoration:none; padding:9px 16px; border-radius:999px; background:var(--paper); box-shadow:0 0 0 1px var(--line); transition:box-shadow .2s, transform .2s; }
+  .top a.tglink:hover { box-shadow:0 0 0 2px var(--pink); transform:translateY(-1px); }
+
+  /* hero */
+  .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; padding:36px 0 88px; }
+  h1 { font:600 clamp(2rem,4.6vw,3.4rem)/1.12 var(--display); letter-spacing:-.03em; margin:0 0 22px; }
+  .lead { font-size:1.15rem; color:var(--muted); max-width:34rem; margin:0 0 32px; }
+  .actions { display:flex; flex-wrap:wrap; gap:12px; }
+  .btn { display:inline-block; text-decoration:none; font-weight:700; padding:15px 26px; border-radius:14px; transition:transform .2s, box-shadow .2s, background .2s; }
+  .btn.main { background:var(--pink); color:#fff; box-shadow:0 10px 24px -10px var(--pink-deep); }
+  .btn.main:hover { background:var(--pink-deep); transform:translateY(-2px); }
+  .btn.ghost { background:transparent; box-shadow:inset 0 0 0 2px var(--ink); }
+  .btn.ghost:hover { background:var(--ink); color:#fff; transform:translateY(-2px); }
+  .facts { display:flex; flex-wrap:wrap; gap:8px 22px; margin:30px 0 0; padding:0; list-style:none; color:var(--muted); font-size:.95rem; }
+  .facts li::before { content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--peach); margin-right:9px; }
+
+  /* the one moving thing: a phone that books a client */
+  .stage { position:relative; justify-self:center; width:100%; max-width:340px; }
+  .phone { background:var(--ink); border-radius:38px; padding:12px; box-shadow:0 40px 60px -34px rgba(120,30,70,.45); }
+  .screen { background:#f6ecef; border-radius:28px; height:520px; overflow:hidden; display:flex; flex-direction:column; }
+  .bar { background:var(--paper); padding:12px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--line); font-weight:700; font-size:.92rem; }
+  .ava { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--pink),var(--peach)); display:grid; place-items:center; color:#fff; font-size:.8rem; }
+  .bar small { display:block; font-weight:500; color:var(--muted); font-size:.72rem; line-height:1.2; }
+  .feed { flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:8px; padding:12px; overflow:hidden; }
+  .m { max-width:84%; padding:9px 13px; border-radius:16px; font-size:.9rem; line-height:1.4; animation:pop .28s ease-out both; }
+  .m.bot { background:var(--paper); border-bottom-left-radius:5px; align-self:flex-start; }
+  .m.me { background:var(--tg); color:#fff; border-bottom-right-radius:5px; align-self:flex-end; }
+  .keys { display:flex; flex-wrap:wrap; gap:6px; animation:pop .28s ease-out both; }
+  .keys span { flex:1 1 auto; text-align:center; background:#dfeaf7; color:#2c63a8; font-weight:700; font-size:.82rem; padding:8px 10px; border-radius:10px; transition:background .15s, color .15s, transform .15s; }
+  .keys span.on { background:var(--tg); color:#fff; transform:scale(.96); }
+  .note { position:absolute; right:-14px; top:-18px; max-width:230px; background:var(--paper); border-radius:16px; padding:11px 14px; font-size:.84rem; line-height:1.35; box-shadow:0 14px 30px -12px rgba(120,30,70,.4), 0 0 0 1px var(--line); opacity:0; transform:translateY(10px) scale(.96); transition:opacity .35s, transform .35s; }
+  .note.show { opacity:1; transform:none; }
+  .note b { display:block; color:var(--pink-deep); }
+  .replay { display:block; margin:14px auto 0; background:none; border:0; font:700 .9rem var(--body); color:var(--muted); cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
+  .replay:hover { color:var(--ink); }
+  @keyframes pop { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  /* sections */
+  section { padding:72px 0; }
+  h2 { font:600 clamp(1.5rem,3vw,2.1rem)/1.2 var(--display); letter-spacing:-.02em; margin:0 0 36px; }
+  .band { background:var(--paper); }
+
+  .gives { margin:0; padding:0; list-style:none; display:grid; gap:0; }
+  .gives li { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); gap:12px 40px; padding:26px 0; border-top:1px solid var(--line); }
+  .gives li:last-child { border-bottom:1px solid var(--line); }
+  .gives h3 { font:600 1.2rem/1.3 var(--display); margin:0; letter-spacing:-.015em; }
+  .gives p { margin:0; color:var(--muted); }
+
+  .steps { margin:0; padding:0; list-style:none; counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+  .steps li { counter-increment:s; }
+  .steps li::before { content:counter(s); display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:var(--blush); color:var(--pink-deep); font:600 1rem var(--display); margin-bottom:14px; }
+  .steps p { margin:0; }
+
+  /* price list: reads like a salon menu */
+  .price { margin:0; padding:0; list-style:none; }
+  .price li { display:grid; grid-template-columns:1fr auto; gap:6px 24px; align-items:baseline; padding:26px 0; border-top:1px solid var(--line); }
+  .price li:last-child { border-bottom:1px solid var(--line); }
+  .price h3 { font:600 1.35rem/1.25 var(--display); letter-spacing:-.02em; margin:0 0 6px; }
+  .price .sum { font:600 clamp(1.5rem,3vw,2.1rem) var(--display); letter-spacing:-.03em; color:var(--pink-deep); white-space:nowrap; }
+  .price p { margin:0; color:var(--muted); max-width:36rem; }
+  .price .term { grid-column:2; text-align:right; color:var(--muted); font-size:.92rem; }
+  .price li:hover h3 { text-decoration:underline; text-decoration-color:var(--peach); text-decoration-thickness:3px; text-underline-offset:6px; }
+  .fineprint { color:var(--muted); font-size:.95rem; margin:20px 0 0; max-width:42rem; }
+
+  details { border-top:1px solid var(--line); padding:20px 0; }
+  details:last-of-type { border-bottom:1px solid var(--line); }
+  summary { cursor:pointer; font-weight:700; list-style:none; display:flex; justify-content:space-between; gap:16px; }
+  summary::-webkit-details-marker { display:none; }
+  summary::after { content:"+"; font:600 1.4rem/1 var(--display); color:var(--pink-deep); transition:transform .25s; }
+  details[open] summary::after { transform:rotate(45deg); }
+  details p { margin:12px 0 0; color:var(--muted); max-width:44rem; }
+
+  .cta { text-align:left; }
+  .cta h2 { max-width:30rem; }
+  footer { padding:32px 0 48px; color:var(--muted); font-size:.92rem; }
+  footer a { text-decoration-color:var(--peach); text-underline-offset:4px; }
+
+  @media (max-width:860px) {
+    .hero { grid-template-columns:1fr; gap:48px; padding-bottom:56px; }
+    .note { right:0; top:-26px; }
+    .gives li { grid-template-columns:1fr; }
+    .steps { grid-template-columns:1fr 1fr; }
+    section { padding:56px 0; }
+  }
+  @media (max-width:520px) {
+    .steps { grid-template-columns:1fr; }
+    .price li { grid-template-columns:1fr; }
+    .price .term { grid-column:1; text-align:left; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    html { scroll-behavior:auto; }
+    * { animation:none !important; transition:none !important; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1>Telegram-бот для вашего бизнеса за 1 день</h1>
-  <p>Клиенты сами смотрят прайс, читают ответы на частые вопросы и оставляют заявку. Вы получаете её сообщением в Telegram. Хостинг бесплатный, абонентской платы нет.</p>
-  <a class="btn" href="https://t.me/bizcard_demo_bot">Попробовать демо-бота</a>
-  <a class="btn alt" href="https://t.me/iseedeadpeople792">Заказать</a>
+<div class="wrap">
+  <header class="top">
+    <b>Даниил · Telegram-боты</b>
+    <a class="tglink" href="https://t.me/iseedeadpeople792">Написать в Telegram</a>
+  </header>
 
-  <h2>Что получите</h2>
-  <div class="grid">
-    <div class="card"><h3>Прайс и FAQ</h3><p>Кнопки с ценами и ответами. Меньше одинаковых вопросов в личке.</p></div>
-    <div class="card"><h3>Приём заявок</h3><p>Клиент пишет имя, телефон и время, а вам приходит уведомление.</p></div>
-    <div class="card"><h3>Работает 24/7</h3><p>Размещение на бесплатном тарифе, без серверов и абонплаты.</p></div>
+  <div class="hero">
+    <div>
+      <h1>Бот, который записывает ваших клиентов, пока вы работаете</h1>
+      <p class="lead">Клиент сам выбирает день и свободное время в Telegram. Занятые часы скрываются, двойных записей не бывает, а каждая запись приходит вам сообщением.</p>
+      <div class="actions">
+        <a class="btn main" href="https://t.me/iseedeadpeople792">Заказать бота</a>
+        <a class="btn ghost" href="https://t.me/bizcard_demo_bot">Попробовать демо</a>
+      </div>
+      <ul class="facts">
+        <li>Хостинг бесплатный, абонплаты нет</li>
+        <li>Работает круглосуточно</li>
+        <li>Простой бот готов за 1 день</li>
+      </ul>
+    </div>
+
+    <div class="stage">
+      <div class="phone" aria-label="Пример диалога клиента с ботом записи">
+        <div class="screen">
+          <div class="bar"><span class="ava">Л</span><span>Салон «Лотос»<small>бот</small></span></div>
+          <div class="feed" id="feed" aria-live="off"></div>
+        </div>
+      </div>
+      <div class="note" id="note"><b>Новая запись</b><span id="noteText"></span></div>
+      <button class="replay" id="replay" type="button">Показать ещё раз</button>
+    </div>
   </div>
+</div>
 
-  <h2>Как это выглядит у клиента</h2>
-  <div class="chat" aria-label="Пример диалога с ботом">
-    <div class="msg bot">Салон красоты «Лотос». Посмотрите прайс или запишитесь.</div>
-    <div class="keys"><span>💰 Прайс</span><span>❓ FAQ</span><span>📝 Записаться</span></div>
-    <div class="msg me">Записаться</div>
-    <div class="msg bot">Выберите день:</div>
-    <div class="keys"><span>ср 28.10</span><span>чт 29.10</span><span>пт 30.10</span></div>
-    <div class="msg bot">Свободное время на 29.10:</div>
-    <div class="keys"><span>10:00</span><span>13:00</span><span>15:00</span><span>17:00</span></div>
-    <div class="msg me">Анна, 89990001122</div>
-    <div class="msg bot">✅ Вы записаны на 29.10 в 15:00. Ждём вас!</div>
+<section class="band">
+  <div class="wrap">
+    <h2>Что вы получаете</h2>
+    <ul class="gives">
+      <li><h3>Запись без звонков и переписки</h3><p>Клиент видит только свободное время и выбирает его кнопками. Вам не нужно отвечать на «а на когда у вас есть окошко?».</p></li>
+      <li><h3>Уведомление о каждой записи</h3><p>Имя, телефон, день и время приходят вам в Telegram сразу. При желании записи ещё и попадают в Google Таблицу.</p></li>
+      <li><h3>Прайс и ответы на частые вопросы</h3><p>Цены и ответы лежат в кнопках внутри бота. Тексты можно менять самому по короткой инструкции.</p></li>
+    </ul>
   </div>
+</section>
 
-  <h2>Как мы работаем</h2>
-  <ol class="steps">
-    <li>Вы присылаете название, прайс и ответы на частые вопросы.</li>
-    <li>Я собираю бота и показываю его вам в Telegram.</li>
-    <li>После ваших правок запускаю бота на бесплатном хостинге.</li>
-    <li>Вы получаете инструкцию, как менять тексты самому.</li>
-  </ol>
-
-  <h2>Цены</h2>
-  <div class="grid">
-    <div class="card"><h3>Визитка</h3><div class="price">от 2 000 ₽</div><p>Прайс, FAQ, приём заявок. Срок: 1 день.</p></div>
-    <div class="card"><h3>С записью</h3><div class="price">от 15 000 ₽</div><p>Запись по свободным слотам без накладок, заявки в Google Таблицу.</p></div>
+<section>
+  <div class="wrap">
+    <h2>Как мы работаем</h2>
+    <ol class="steps">
+      <li><p>Вы присылаете название, прайс, график работы и ответы на частые вопросы.</p></li>
+      <li><p>Я собираю бота и показываю его вам прямо в Telegram.</p></li>
+      <li><p>Вы говорите, что поправить. Я вношу правки.</p></li>
+      <li><p>Запускаю бота на бесплатном хостинге и отдаю инструкцию.</p></li>
+    </ol>
   </div>
+</section>
 
-  <footer>© Даниил · <a style="color:var(--accent)" href="https://t.me/iseedeadpeople792">Telegram</a></footer>
-</main>
+<section class="band" id="prices">
+  <div class="wrap">
+    <h2>Цены</h2>
+    <ul class="price">
+      <li>
+        <div><h3>Визитка</h3><p>Прайс и ответы на частые вопросы кнопками. Клиент оставляет имя и телефон, заявка приходит вам в Telegram.</p></div>
+        <div class="sum">от 2 000 ₽</div>
+        <div class="term">1 день</div>
+      </li>
+      <li>
+        <div><h3>С записью</h3><p>Всё из «Визитки» и запись по свободным слотам: занятое время скрывается, каждая запись приходит вам в Telegram.</p></div>
+        <div class="sum">от 7 000 ₽</div>
+        <div class="term">от 3 дней</div>
+      </li>
+      <li>
+        <div><h3>Запись и таблица</h3><p>Всё из тарифа «С записью» и выгрузка всех записей в Google Таблицу, чтобы видеть расписание целиком.</p></div>
+        <div class="sum">от 15 000 ₽</div>
+        <div class="term">от 5 дней</div>
+      </li>
+    </ul>
+    <p class="fineprint">Точную цену и срок назову после того, как узнаю ваш график и услуги. Работаю с предоплатой, перед запуском вы увидите готового бота.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Частые вопросы</h2>
+    <details><summary>Сколько я плачу за бота потом?</summary><p>Бот работает на бесплатном хостинге, поэтому ежемесячной платы за сервер нет. Вы платите только за разработку.</p></details>
+    <details><summary>Что нужно прислать, чтобы начать?</summary><p>Название, прайс, рабочие дни и часы, длительность одной записи и ответы на 3–5 частых вопросов. Токен бота я подскажу, как получить, это занимает пару минут.</p></details>
+    <details><summary>Можно потом менять цены и часы работы?</summary><p>Да. Вы получите инструкцию, как поменять тексты и рабочие часы самому. Если не захотите разбираться, правки внесу я.</p></details>
+    <details><summary>А если клиент захочет записаться на занятое время?</summary><p>Занятое время в боте не показывается, а повторная запись на то же время отклоняется.</p></details>
+  </div>
+</section>
+
+<section class="band cta">
+  <div class="wrap">
+    <h2>Покажу вашего бота в Telegram до оплаты запуска</h2>
+    <div class="actions">
+      <a class="btn main" href="https://t.me/iseedeadpeople792">Написать в Telegram</a>
+      <a class="btn ghost" href="https://t.me/bizcard_demo_bot">Попробовать демо</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>© Даниил · <a href="https://t.me/iseedeadpeople792">Telegram</a></footer>
+</div>
+
+<script>
+(() => {
+  const feed = document.getElementById('feed');
+  const note = document.getElementById('note');
+  const noteText = document.getElementById('noteText');
+  const replay = document.getElementById('replay');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wd = ['вс','пн','вт','ср','чт','пт','сб'];
+  const days = [1, 2, 3].map(n => { const d = new Date(Date.now() + n * 864e5); return `${wd[d.getDay()]} ${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`; });
+  const day = days[1];
+  const dayShort = day.slice(3);
+  const wait = ms => new Promise(r => setTimeout(r, still ? 0 : ms));
+  let run = 0;
+
+  const bubble = (cls, text) => { const m = document.createElement('div'); m.className = 'm ' + cls; m.textContent = text; feed.appendChild(m); return m; };
+  const keys = labels => { const k = document.createElement('div'); k.className = 'keys'; labels.forEach(t => { const s = document.createElement('span'); s.textContent = t; k.appendChild(s); }); feed.appendChild(k); return k; };
+  const press = async (k, i) => { await wait(900); k.children[i].classList.add('on'); await wait(450); };
+
+  async function play() {
+    const id = ++run;
+    const alive = () => id === run;
+    feed.innerHTML = '';
+    note.classList.remove('show');
+
+    bubble('bot', 'Салон «Лотос». Посмотрите прайс или запишитесь.');
+    await wait(500); if (!alive()) return;
+    let k = keys(['Прайс', 'FAQ', 'Записаться']);
+    await press(k, 2); if (!alive()) return;
+    bubble('me', 'Записаться');
+
+    await wait(700); if (!alive()) return;
+    bubble('bot', 'Выберите день:');
+    k = keys(days);
+    await press(k, 1); if (!alive()) return;
+    bubble('me', day);
+
+    await wait(700); if (!alive()) return;
+    bubble('bot', 'Свободное время на ' + dayShort + ':');
+    k = keys(['10:00', '13:00', '15:00', '17:00']);
+    await press(k, 2); if (!alive()) return;
+    bubble('me', '15:00');
+
+    await wait(700); if (!alive()) return;
+    bubble('bot', 'Напишите имя и телефон одним сообщением');
+    await wait(1100); if (!alive()) return;
+    bubble('me', 'Анна, 89990001122');
+
+    await wait(800); if (!alive()) return;
+    bubble('bot', 'Вы записаны на ' + dayShort + ' в 15:00. Ждём вас!');
+    await wait(600); if (!alive()) return;
+    noteText.textContent = day + ', 15:00, Анна';
+    note.classList.add('show');
+  }
+
+  replay.addEventListener('click', play);
+  play();
+})();
+</script>
 </body>
 </html>

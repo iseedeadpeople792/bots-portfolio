@@ -56,18 +56,23 @@
   .ava { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--pink),var(--peach)); display:grid; place-items:center; color:#fff; font-size:.8rem; }
   .bar small { display:block; font-weight:500; color:var(--muted); font-size:.72rem; line-height:1.2; }
   .feed { flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:8px; padding:12px; overflow:hidden; }
-  .m { max-width:84%; padding:9px 13px; border-radius:16px; font-size:.9rem; line-height:1.4; animation:pop .28s ease-out both; }
+  .m { max-width:84%; padding:9px 13px; border-radius:16px; font-size:.9rem; line-height:1.4; }
   .m.bot { background:var(--paper); border-bottom-left-radius:5px; align-self:flex-start; }
   .m.me { background:var(--tg); color:#fff; border-bottom-right-radius:5px; align-self:flex-end; }
-  .keys { display:flex; flex-wrap:wrap; gap:6px; animation:pop .28s ease-out both; }
-  .keys span { flex:1 1 auto; text-align:center; background:#dfeaf7; color:#2c63a8; font-weight:700; font-size:.82rem; padding:8px 10px; border-radius:10px; transition:background .15s, color .15s, transform .15s; }
+  .keys { display:flex; flex-wrap:wrap; gap:6px; }
+  .keys span { position:relative; overflow:hidden; flex:1 1 auto; text-align:center; background:#dfeaf7; color:#2c63a8; font-weight:700; font-size:.82rem; padding:8px 10px; border-radius:10px; transition:background .15s, color .15s, transform .15s; }
   .keys span.on { background:var(--tg); color:#fff; transform:scale(.96); }
   .note { position:absolute; right:-14px; top:-18px; max-width:230px; background:var(--paper); border-radius:16px; padding:11px 14px; font-size:.84rem; line-height:1.35; box-shadow:0 14px 30px -12px rgba(120,30,70,.4), 0 0 0 1px var(--line); opacity:0; transform:translateY(10px) scale(.96); transition:opacity .35s, transform .35s; }
   .note.show { opacity:1; transform:none; }
   .note b { display:block; color:var(--pink-deep); }
+  .typing { display:flex; gap:4px; padding:12px 14px; }
+  .typing i { width:7px; height:7px; border-radius:50%; background:#c9b3bd; }
+  .ripple { position:absolute; left:50%; top:50%; width:40px; height:40px; margin:-20px 0 0 -20px; border-radius:50%; background:rgba(255,255,255,.65); pointer-events:none; }
+  .note { display:flex; gap:10px; align-items:flex-start; }
+  .note svg { flex:none; width:22px; height:22px; margin-top:1px; }
+  .note path { fill:none; stroke:var(--pink-deep); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
   .replay { display:block; margin:14px auto 0; background:none; border:0; font:700 .9rem var(--body); color:var(--muted); cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
   .replay:hover { color:var(--ink); }
-  @keyframes pop { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
 
   /* sections */
   section { padding:72px 0; }
@@ -93,7 +98,10 @@
   .price .sum { font:600 clamp(1.5rem,3vw,2.1rem) var(--display); letter-spacing:-.03em; color:var(--pink-deep); white-space:nowrap; }
   .price p { margin:0; color:var(--muted); max-width:36rem; }
   .price .term { grid-column:2; text-align:right; color:var(--muted); font-size:.92rem; }
-  .price li:hover h3 { text-decoration:underline; text-decoration-color:var(--peach); text-decoration-thickness:3px; text-underline-offset:6px; }
+  .price li { position:relative; }
+  .price li::after { content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:linear-gradient(90deg,var(--pink),var(--peach)); transform:scaleX(0); transform-origin:0 50%; transition:transform .55s cubic-bezier(.2,.8,.2,1); }
+  .price li:hover::after, .price li:focus-within::after { transform:scaleX(1); }
+  .price .sum { text-align:right; font-variant-numeric:tabular-nums; }
   .fineprint { color:var(--muted); font-size:.95rem; margin:20px 0 0; max-width:42rem; }
 
   details { border-top:1px solid var(--line); padding:20px 0; }
@@ -156,7 +164,7 @@
           <div class="feed" id="feed" aria-live="off"></div>
         </div>
       </div>
-      <div class="note" id="note"><b data-en="New booking">Новая запись</b><span id="noteText"></span></div>
+      <div class="note" id="note"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="tick" d="M5 12.5l4.5 4.5L19 7"/></svg><div><b data-en="New booking">Новая запись</b><span id="noteText"></span></div></div>
       <button class="replay" id="replay" type="button" data-en="Show again">Показать ещё раз</button>
     </div>
   </div>
@@ -269,13 +277,16 @@ const L = (ru, en) => (LANG === 'en' ? en : ru);
   document.querySelector('.top .right').appendChild(box);
 })();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (() => {
   const feed = document.getElementById('feed');
   const note = document.getElementById('note');
   const noteText = document.getElementById('noteText');
   const replay = document.getElementById('replay');
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // без GSAP (нет сети) или при просьбе убрать движение страница показывается сразу в конечном виде
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches || !window.gsap;
   const wd = L(['вс','пн','вт','ср','чт','пт','сб'], ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']);
   const days = [1, 2, 3].map(n => { const d = new Date(Date.now() + n * 864e5); return `${wd[d.getDay()]} ${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`; });
   const day = days[1];
@@ -283,48 +294,109 @@ const L = (ru, en) => (LANG === 'en' ? en : ru);
   const wait = ms => new Promise(r => setTimeout(r, still ? 0 : ms));
   let run = 0;
 
-  const bubble = (cls, text) => { const m = document.createElement('div'); m.className = 'm ' + cls; m.textContent = text; feed.appendChild(m); return m; };
-  const keys = labels => { const k = document.createElement('div'); k.className = 'keys'; labels.forEach(t => { const s = document.createElement('span'); s.textContent = t; k.appendChild(s); }); feed.appendChild(k); return k; };
-  const press = async (k, i) => { await wait(900); k.children[i].classList.add('on'); await wait(450); };
+  const pop = el => { if (!still) gsap.from(el, { opacity: 0, y: 16, scale: .9, transformOrigin: el.classList.contains('me') ? '100% 100%' : '0% 100%', duration: .5, ease: 'back.out(1.8)' }); };
+  const bubble = (cls, text) => { const m = document.createElement('div'); m.className = 'm ' + cls; m.textContent = text; feed.appendChild(m); pop(m); return m; };
+  const keys = labels => { const k = document.createElement('div'); k.className = 'keys'; labels.forEach(t => { const s = document.createElement('span'); s.textContent = t; k.appendChild(s); }); feed.appendChild(k); if (!still) gsap.from(k.children, { opacity: 0, y: 10, stagger: .06, duration: .35, ease: 'power2.out' }); return k; };
+
+  // бот «печатает» перед каждым ответом
+  async function say(text, alive) {
+    if (still) { bubble('bot', text); return; }
+    const t = document.createElement('div');
+    t.className = 'm bot typing';
+    t.innerHTML = '<i></i><i></i><i></i>';
+    feed.appendChild(t);
+    pop(t);
+    const dots = gsap.to(t.children, { y: -4, stagger: .12, repeat: -1, yoyo: true, duration: .3, ease: 'sine.inOut' });
+    await wait(750);
+    dots.kill();
+    t.remove();
+    if (alive()) bubble('bot', text);
+  }
+
+  // палец нажимает кнопку: круг расходится от центра, остальные кнопки приглушаются
+  async function press(k, i) {
+    await wait(900);
+    const b = k.children[i];
+    b.classList.add('on');
+    if (!still) {
+      const r = document.createElement('i');
+      r.className = 'ripple';
+      b.appendChild(r);
+      gsap.fromTo(r, { scale: 0, opacity: 1 }, { scale: 5, opacity: 0, duration: .6, ease: 'power2.out', onComplete: () => r.remove() });
+      gsap.fromTo(b, { scale: 1 }, { scale: .94, duration: .12, yoyo: true, repeat: 1 });
+      gsap.to([...k.children].filter(c => c !== b), { opacity: .4, duration: .3 });
+    }
+    await wait(500);
+  }
 
   async function play() {
     const id = ++run;
     const alive = () => id === run;
     feed.innerHTML = '';
     note.classList.remove('show');
+    if (!still) { gsap.killTweensOf(note); gsap.set(note, { opacity: 0, y: 0, scale: 1 }); }
 
-    bubble('bot', L('Салон «Лотос». Посмотрите прайс или запишитесь.', 'Lotus Salon. Check the price list or book a visit.'));
-    await wait(500); if (!alive()) return;
+    await say(L('Салон «Лотос». Посмотрите прайс или запишитесь.', 'Lotus Salon. Check the price list or book a visit.'), alive); if (!alive()) return;
     let k = keys([L('Прайс', 'Prices'), 'FAQ', L('Записаться', 'Book')]);
     await press(k, 2); if (!alive()) return;
     bubble('me', L('Записаться', 'Book'));
 
-    await wait(700); if (!alive()) return;
-    bubble('bot', L('Выберите день:', 'Pick a day:'));
+    await wait(500); if (!alive()) return;
+    await say(L('Выберите день:', 'Pick a day:'), alive); if (!alive()) return;
     k = keys(days);
     await press(k, 1); if (!alive()) return;
     bubble('me', day);
 
-    await wait(700); if (!alive()) return;
-    bubble('bot', L('Свободное время на ', 'Free times on ') + dayShort + ':');
+    await wait(500); if (!alive()) return;
+    await say(L('Свободное время на ', 'Free times on ') + dayShort + ':', alive); if (!alive()) return;
     k = keys(['10:00', '13:00', '15:00', '17:00']);
     await press(k, 2); if (!alive()) return;
     bubble('me', '15:00');
 
-    await wait(700); if (!alive()) return;
-    bubble('bot', L('Напишите имя и телефон одним сообщением', 'Send your name and phone in one message'));
-    await wait(1100); if (!alive()) return;
+    await wait(500); if (!alive()) return;
+    await say(L('Напишите имя и телефон одним сообщением', 'Send your name and phone in one message'), alive); if (!alive()) return;
+    await wait(1000); if (!alive()) return;
     bubble('me', L('Анна, 89990001122', 'Anna, 89990001122'));
 
-    await wait(800); if (!alive()) return;
-    bubble('bot', L('Вы записаны на ' + dayShort + ' в 15:00. Ждём вас!', 'You are booked for ' + dayShort + ' at 15:00. See you!'));
-    await wait(600); if (!alive()) return;
+    await wait(500); if (!alive()) return;
+    await say(L('Вы записаны на ' + dayShort + ' в 15:00. Ждём вас!', 'You are booked for ' + dayShort + ' at 15:00. See you!'), alive); if (!alive()) return;
+    await wait(500); if (!alive()) return;
     noteText.textContent = day + L(', 15:00, Анна', ', 15:00, Anna');
     note.classList.add('show');
+    if (!still) {
+      gsap.fromTo(note, { y: -34, scale: .85, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .7, ease: 'elastic.out(1,.6)' });
+      const tick = document.getElementById('tick');
+      const len = tick.getTotalLength();
+      gsap.fromTo(tick, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: .45, delay: .25, ease: 'power2.out' });
+    }
   }
 
   replay.addEventListener('click', play);
   play();
+
+  if (still) return;
+  gsap.registerPlugin(ScrollTrigger);
+  // телефон слегка покачивается, пока вы читаете
+  gsap.to('.phone', { y: -8, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  // вход героя
+  gsap.from('.hero h1, .hero .lead, .hero .actions, .hero .facts li', { opacity: 0, y: 28, duration: .8, stagger: .1, ease: 'power3.out' });
+  // блоки появляются по мере прокрутки
+  gsap.utils.toArray('section h2').forEach(h => gsap.from(h, { opacity: 0, y: 24, duration: .7, ease: 'power3.out', scrollTrigger: { trigger: h, start: 'top 88%', once: true } }));
+  ScrollTrigger.batch('.gives li, .steps li, details', { start: 'top 90%', once: true, onEnter: els => gsap.from(els, { opacity: 0, y: 26, stagger: .1, duration: .7, ease: 'power3.out' }) });
+  // цены: строки выезжают, суммы считаются от нуля
+  gsap.utils.toArray('.price li').forEach(li => {
+    const sum = li.querySelector('.sum');
+    const txt = sum.textContent;
+    const m = txt.match(/\d[\d\s ,]*\d/);
+    const n = m ? parseInt(m[0].replace(/\D/g, ''), 10) : 0;
+    const sep = m && m[0].includes(',') ? ',' : ' ';
+    const fmt = v => String(v).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+    sum.style.minWidth = sum.offsetWidth + 'px'; // чтобы строка не прыгала, пока число растёт
+    const o = { v: 0 };
+    const tl = gsap.timeline({ scrollTrigger: { trigger: li, start: 'top 88%', once: true } });
+    tl.from(li, { opacity: 0, x: -40, duration: .7, ease: 'power3.out' });
+    if (m) tl.to(o, { v: n, duration: 1.1, ease: 'power2.out', onUpdate: () => { sum.textContent = txt.replace(m[0], fmt(Math.round(o.v))); }, onComplete: () => { sum.textContent = txt; } }, 0.1);
+  });
 })();
 </script>
 </body>

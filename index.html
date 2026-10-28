@@ -117,6 +117,40 @@
   footer { padding:32px 0 48px; color:var(--muted); font-size:.92rem; }
   footer a { text-decoration-color:var(--peach); text-underline-offset:4px; }
 
+
+  /* motion graphics */
+  html, body { overflow-x:clip; }
+  #prog { position:fixed; inset:0 0 auto 0; height:4px; background:linear-gradient(90deg,var(--pink),var(--peach)); transform:scaleX(0); transform-origin:0 50%; z-index:60; }
+  .hero { position:relative; }
+  .hero > div:not(.deco) { position:relative; z-index:1; }
+  .deco { position:absolute; inset:-40px -10vw -40px; z-index:0 !important; pointer-events:none; }
+  .hblob { position:absolute; border-radius:50%; filter:blur(70px); opacity:.55; }
+  .hblob.b1 { width:380px; height:380px; right:6%; top:2%; background:#ffc2d1; }
+  .hblob.b2 { width:300px; height:300px; left:2%; bottom:0; background:#ffd9bf; }
+  .orbits { position:absolute; left:50%; top:50%; width:620px; height:620px; margin:-310px 0 0 -310px; z-index:0; pointer-events:none; }
+  .stage .phone { position:relative; z-index:1; } .stage .note { z-index:4; }
+  .orbits svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .orbits circle { fill:none; stroke:var(--pink); stroke-width:2; stroke-dasharray:3 14; stroke-linecap:round; opacity:.55; }
+  .fico { position:absolute; width:76px; height:76px; border-radius:24px; background:#fff; display:grid; place-items:center; color:var(--pink-deep); box-shadow:0 18px 34px -14px rgba(120,30,70,.45), 0 0 0 1px var(--line); z-index:3; }
+  .fico svg { width:42px; height:42px; }
+  .fico.f1 { left:-64px; top:52px; } .fico.f2 { right:-56px; top:210px; } .fico.f3 { left:-50px; bottom:96px; } .fico.f4 { right:-38px; bottom:36px; }
+  .ribbon { position:relative; overflow:hidden; margin:-18px 0 18px; padding:30px 0; transform:rotate(-1.6deg) scale(1.03); background:var(--ink); color:#fff; font:600 clamp(1.1rem,2.4vw,1.5rem) var(--display); letter-spacing:-.01em; white-space:nowrap; z-index:2; }
+  .rt { display:flex; width:max-content; gap:0; }
+  .rt span { padding:0 28px; display:inline-flex; align-items:center; gap:56px; }
+  .rt span::after { content:""; width:14px; height:14px; border-radius:50%; background:var(--pink); box-shadow:0 0 18px var(--pink); }
+  .gives h3 { display:flex; align-items:center; gap:18px; }
+  .gico { flex:none; width:54px; height:54px; color:var(--pink-deep); overflow:visible; }
+  .steps { position:relative; }
+  .sl { position:absolute; left:20px; right:calc(25% - 20px); top:20px; height:3px; border-radius:2px; background:var(--line); z-index:0; }
+  .sl i { display:block; height:100%; border-radius:2px; background:linear-gradient(90deg,var(--pink),var(--peach)); transform:scaleX(0); transform-origin:0 50%; }
+  .steps li { position:relative; z-index:1; }
+  .steps li::before { transition:background .35s, color .35s, transform .35s cubic-bezier(.3,1.6,.5,1); }
+  .steps li.on::before { background:var(--pink); color:#fff; transform:scale(1.14); }
+  .cta .wrap { position:relative; }
+  .plane { position:absolute; right:2%; top:-10px; width:min(46%,420px); pointer-events:none; overflow:visible; }
+  .plane .trail { fill:none; stroke:var(--pink); stroke-width:2.5; stroke-dasharray:2 12; stroke-linecap:round; opacity:.7; }
+  .plane .pl { fill:var(--pink); }
+  @media (max-width:860px) { .orbits, .sl, .plane { display:none; } .fico.f1 { left:-22px; } .fico.f2 { right:-18px; } .fico.f3 { left:-18px; } .fico.f4 { right:-10px; } .fico { width:60px; height:60px; border-radius:20px; } .fico svg { width:32px; height:32px; } }
   @media (max-width:860px) {
     .hero { grid-template-columns:1fr; gap:48px; padding-bottom:56px; }
     .note { right:0; top:-26px; }
@@ -136,6 +170,7 @@
 </style>
 </head>
 <body>
+<div id="prog" aria-hidden="true"></div>
 <div class="wrap">
   <header class="top">
     <b data-en="Daniil · Telegram bots">Даниил · Telegram-боты</b>
@@ -143,6 +178,8 @@
   </header>
 
   <div class="hero">
+    <div class="deco" aria-hidden="true"><i class="hblob b1"></i><i class="hblob b2"></i>
+      </div>
     <div>
       <h1 data-en="A bot that books your clients while you work">Бот, который записывает ваших клиентов, пока вы работаете</h1>
       <p class="lead" data-en="The client picks a day and a free time in Telegram. Busy hours are hidden, double bookings can't happen, and every booking reaches you as a message.">Клиент сам выбирает день и свободное время в Telegram. Занятые часы скрываются, двойных записей не бывает, а каждая запись приходит вам сообщением.</p>
@@ -158,6 +195,8 @@
     </div>
 
     <div class="stage">
+      <div class="orbits" aria-hidden="true"><svg viewBox="0 0 620 620"><circle class="o1" cx="310" cy="310" r="300"/><circle class="o2" cx="310" cy="310" r="235"/></svg></div>
+      <div class="fico f1" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="32" rx="8" fill="none" stroke="currentColor" stroke-width="3.4"/><path d="M6 20h36M15 6v8M33 6v8" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><circle cx="24" cy="31" r="4.4" fill="currentColor"/></svg></div><div class="fico f2" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 33V23a12 12 0 0124 0v10l3 4H9z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/><path d="M20 41a4 4 0 008 0" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" fill="none"/></svg></div><div class="fico f3" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="3.4"/><path d="M24 14v10l7 5" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div><div class="fico f4" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="currentColor"/><path d="M14.5 24.5l6.5 6.5L34 17.5" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
       <div class="phone" aria-label="Пример диалога клиента с ботом записи" data-en-aria-label="Example of a client talking to a booking bot">
         <div class="screen">
           <div class="bar"><span class="ava" data-en="L">Л</span><span><span data-en="Lotus Salon">Салон «Лотос»</span><small data-en="bot">бот</small></span></div>
@@ -170,13 +209,15 @@
   </div>
 </div>
 
+<div class="ribbon" aria-hidden="true"><div class="rt" id="rt"></div></div>
+
 <section class="band">
   <div class="wrap">
     <h2 data-en="What you get">Что вы получаете</h2>
     <ul class="gives">
-      <li><h3 data-en="Booking without calls or chats">Запись без звонков и переписки</h3><p data-en="The client sees only free time and picks it with buttons. You no longer have to answer &quot;do you have a slot for…?&quot;.">Клиент видит только свободное время и выбирает его кнопками. Вам не нужно отвечать на «а на когда у вас есть окошко?».</p></li>
-      <li><h3 data-en="A notification for every booking">Уведомление о каждой записи</h3><p data-en="Name, phone, day and time reach you in Telegram right away. If you like, bookings also go into a Google Sheet.">Имя, телефон, день и время приходят вам в Telegram сразу. При желании записи ещё и попадают в Google Таблицу.</p></li>
-      <li><h3 data-en="Price list and answers to common questions">Прайс и ответы на частые вопросы</h3><p data-en="Prices and answers live in buttons inside the bot. You can change the texts yourself with a short guide.">Цены и ответы лежат в кнопках внутри бота. Тексты можно менять самому по короткой инструкции.</p></li>
+      <li><h3><svg class="gico" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="10" width="36" height="32" rx="8" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M6 20h36M15 6v8M33 6v8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><g class="dots" fill="currentColor"><circle cx="17" cy="29" r="2.6"/><circle cx="24" cy="29" r="2.6"/><circle cx="31" cy="29" r="2.6"/><circle cx="17" cy="36" r="2.6"/><circle class="pick" cx="24" cy="36" r="4.2" fill="#ff6f96"/></g></svg><span data-en="Booking without calls or chats">Запись без звонков и переписки</span></h3><p data-en="The client sees only free time and picks it with buttons. You no longer have to answer &quot;do you have a slot for…?&quot;.">Клиент видит только свободное время и выбирает его кнопками. Вам не нужно отвечать на «а на когда у вас есть окошко?».</p></li>
+      <li><h3><svg class="gico" viewBox="0 0 48 48" aria-hidden="true"><g class="bell" style="transform-origin:24px 8px"><path d="M12 33V23a12 12 0 0124 0v10l3 4H9z" fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M20 41a4 4 0 008 0" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></g><circle class="bdot" cx="37" cy="11" r="5.5" fill="#ff6f96"/></svg><span data-en="A notification for every booking">Уведомление о каждой записи</span></h3><p data-en="Name, phone, day and time reach you in Telegram right away. If you like, bookings also go into a Google Sheet.">Имя, телефон, день и время приходят вам в Telegram сразу. При желании записи ещё и попадают в Google Таблицу.</p></li>
+      <li><h3><svg class="gico" viewBox="0 0 48 48" aria-hidden="true"><rect class="b1" x="5" y="7" width="38" height="10" rx="5" fill="#dfeaf7" stroke="currentColor" stroke-width="2.5"/><rect class="b2" x="5" y="19" width="38" height="10" rx="5" fill="#dfeaf7" stroke="currentColor" stroke-width="2.5"/><rect class="b3" x="5" y="31" width="38" height="10" rx="5" fill="#dfeaf7" stroke="currentColor" stroke-width="2.5"/></svg><span data-en="Price list and answers to common questions">Прайс и ответы на частые вопросы</span></h3><p data-en="Prices and answers live in buttons inside the bot. You can change the texts yourself with a short guide.">Цены и ответы лежат в кнопках внутри бота. Тексты можно менять самому по короткой инструкции.</p></li>
     </ul>
   </div>
 </section>
@@ -185,6 +226,7 @@
   <div class="wrap">
     <h2 data-en="How we work">Как мы работаем</h2>
     <ol class="steps">
+      <div class="sl" aria-hidden="true"><i></i></div>
       <li><p data-en="You send the name, price list, working schedule and answers to common questions.">Вы присылаете название, прайс, график работы и ответы на частые вопросы.</p></li>
       <li><p data-en="I build the bot and show it to you right in Telegram.">Я собираю бота и показываю его вам прямо в Telegram.</p></li>
       <li><p data-en="You tell me what to fix. I make the changes.">Вы говорите, что поправить. Я вношу правки.</p></li>
@@ -229,6 +271,7 @@
 
 <section class="band cta">
   <div class="wrap">
+    <svg class="plane" viewBox="0 0 440 150" aria-hidden="true"><path class="trail" id="trail" d="M10 120 C90 10, 170 170, 250 70 S380 10, 430 60"/><g id="pl" class="pl"><path d="M0 0L-26 -9L-18 0L-26 9Z" transform="scale(1.15)"/><path d="M-18 0L-10 -3L-10 3Z" fill="#fff"/></g></svg>
     <h2 data-en="I'll show you your bot in Telegram before you pay for the launch">Покажу вашего бота в Telegram до оплаты запуска</h2>
     <div class="actions">
       <a class="btn main" href="https://t.me/daniilplotnikov792" data-en="Message me on Telegram">Написать в Telegram</a>
@@ -397,6 +440,71 @@ const L = (ru, en) => (LANG === 'en' ? en : ru);
     tl.from(li, { opacity: 0, x: -40, duration: .7, ease: 'power3.out' });
     if (m) tl.to(o, { v: n, duration: 1.1, ease: 'power2.out', onUpdate: () => { sum.textContent = txt.replace(m[0], fmt(Math.round(o.v))); }, onComplete: () => { sum.textContent = txt; } }, 0.1);
   });
+
+  // ---------- декоративная графика и motion ----------
+  gsap.to('#prog', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
+  // фон героя и орбиты живут сами
+  gsap.to('.hblob.b1', { x: -60, y: 50, duration: 9, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  gsap.to('.hblob.b2', { x: 70, y: -40, duration: 11, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  gsap.to('.orbits .o1', { rotation: 360, svgOrigin: '310 310', duration: 80, repeat: -1, ease: 'none' });
+  gsap.to('.orbits .o2', { rotation: -360, svgOrigin: '310 310', duration: 110, repeat: -1, ease: 'none' });
+  // стикеры вокруг телефона вылетают, покачиваются и слегка тянутся за курсором
+  const fico = gsap.utils.toArray('.fico');
+  fico.forEach((el, i) => {
+    gsap.from(el, { scale: 0, rotate: i % 2 ? 40 : -40, duration: 0.9, delay: 1.3 + i * 0.18, ease: 'back.out(2.2)' });
+    gsap.to(el, { y: i % 2 ? 14 : -14, rotate: i % 2 ? 5 : -5, duration: 2.6 + i * 0.45, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 2 + i * 0.2 });
+  });
+  if (matchMedia('(pointer: fine)').matches) {
+    const q = fico.map((el) => gsap.quickTo(el, 'x', { duration: 0.9, ease: 'power3' }));
+    addEventListener('pointermove', (e) => {
+      const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
+      fico.forEach((el, i) => q[i](nx * (i % 2 ? -26 : 26) * (1 + i * 0.3)));
+    });
+    // кнопка «Заказать» слегка притягивается к курсору
+    document.querySelectorAll('.btn.main').forEach((b) => {
+      const mx = gsap.quickTo(b, 'x', { duration: 0.5, ease: 'power3' }), my = gsap.quickTo(b, 'y', { duration: 0.5, ease: 'power3' });
+      b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * 0.25); my((e.clientY - r.top - r.height / 2) * 0.35); });
+      b.addEventListener('pointerleave', () => { mx(0); my(0); });
+    });
+  }
+  // бегущая лента реагирует на скорость прокрутки
+  const rt = document.getElementById('rt');
+  const words = L(['запись клиентов', 'уведомления', 'бесплатный хостинг', 'Telegram', 'без звонков', 'готов за 1 день'], ['client booking', 'notifications', 'free hosting', 'Telegram', 'no phone calls', 'ready in 1 day']);
+  rt.innerHTML = [0, 1, 2, 3].map(() => words.map((w) => '<span>' + w + '</span>').join('')).join('');
+  const loop = gsap.to(rt, { xPercent: -50, duration: 36, repeat: -1, ease: 'none' });
+  ScrollTrigger.create({ onUpdate: (self) => { loop.timeScale(gsap.utils.clamp(1, 7, 1 + Math.abs(self.getVelocity()) / 350)); } });
+  gsap.ticker.add(() => { const t = loop.timeScale(); if (t > 1) loop.timeScale(Math.max(1, t * 0.94)); });
+  // значки блока «Что вы получаете» оживают при появлении
+  const gi = (sel) => document.querySelector('.gives li:' + sel + ' .gico');
+  const cal = gi('nth-child(1)'), bell = gi('nth-child(2)'), btn = gi('nth-child(3)');
+  gsap.set(cal.querySelectorAll('.dots circle'), { transformOrigin: '50% 50%' });
+  gsap.from(cal.querySelectorAll('.dots circle'), { scale: 0, stagger: 0.08, duration: 0.5, ease: 'back.out(3)', scrollTrigger: { trigger: cal, start: 'top 85%', once: true } });
+  gsap.fromTo(cal.querySelector('.pick'), { scale: 1 }, { scale: 1.5, duration: 0.5, yoyo: true, repeat: -1, repeatDelay: 1.2, ease: 'sine.inOut', transformOrigin: '50% 50%', scrollTrigger: { trigger: cal, start: 'top 85%' } });
+  gsap.fromTo(bell.querySelector('.bell'), { rotation: -22 }, { rotation: 0, duration: 1.6, ease: 'elastic.out(1,.22)', repeat: -1, repeatDelay: 2.4, scrollTrigger: { trigger: bell, start: 'top 85%' } });
+  gsap.from(bell.querySelector('.bdot'), { scale: 0, transformOrigin: '50% 50%', duration: 0.6, ease: 'back.out(3)', scrollTrigger: { trigger: bell, start: 'top 85%', once: true } });
+  const pressTl = gsap.timeline({ repeat: -1, repeatDelay: 1.4, scrollTrigger: { trigger: btn, start: 'top 85%' } });
+  ['.b1', '.b2', '.b3'].forEach((c, i) => {
+    pressTl.to(btn.querySelector(c), { scale: 0.93, transformOrigin: '50% 50%', fill: '#4c9be8', duration: 0.14, ease: 'power2.out' }, i * 0.5)
+         .to(btn.querySelector(c), { scale: 1, fill: '#dfeaf7', duration: 0.4, ease: 'back.out(3)' }, i * 0.5 + 0.2);
+  });
+  // шаги: линия дорисовывается, цифры зажигаются по мере прокрутки
+  const sl = document.querySelector('.sl i');
+  const stepLis = gsap.utils.toArray('.steps li');
+  ScrollTrigger.create({
+    trigger: '.steps', start: 'top 78%', end: 'bottom 55%', scrub: true,
+    onUpdate: (self) => { gsap.set(sl, { scaleX: self.progress }); stepLis.forEach((li, i) => li.classList.toggle('on', self.progress >= i / (stepLis.length - 1) - 0.02)); },
+  });
+  // финал: бумажный самолётик пролетает по пунктиру
+  const trail = document.getElementById('trail'), pl = document.getElementById('pl');
+  const TL = trail.getTotalLength();
+  const fly = { u: 0 };
+  const place = () => { const a = trail.getPointAtLength(fly.u * TL), b = trail.getPointAtLength(Math.min(TL, fly.u * TL + 2)); gsap.set(pl, { x: a.x, y: a.y, rotation: Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI }); };
+  gsap.set(trail, { strokeDasharray: '2 12' });
+  gsap.set(pl, { opacity: 0 });
+  gsap.timeline({ scrollTrigger: { trigger: '.cta', start: 'top 70%', once: true } })
+    .to(pl, { opacity: 1, duration: 0.2 })
+    .to(fly, { u: 1, duration: 2.6, ease: 'power2.inOut', onUpdate: place }, 0)
+    .from('.plane .trail', { opacity: 0, duration: 1 }, 0);
 })();
 </script>
 </body>
